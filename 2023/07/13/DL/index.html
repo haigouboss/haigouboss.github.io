@@ -14,8 +14,11 @@
 <meta property="og:description" content="PyTorchPyTorch是一个python库，它主要提供了两个高级功能：  GPU加速的张量计算 构建在反向自动求导系统上的深度神经网络  1. 定义数据一般定义数据使用torch.Tensor ， tensor的意思是张量，是数字各种形式的总称 In [0]: 12345import torch# 可以是一个数x &#x3D; torch.tensor(666)print(x)  Out[0]: 1t">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://pic1.zhimg.com/80/v2-7d88b680c6b3125f0d9ba64902bc5474_1440w.webp">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/681873/201612/681873-20161209210156147-535395600.png">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/681873/201612/681873-20161209210355476-1472970235.png">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/681873/201612/681873-20161209210818116-693338732.png">
 <meta property="article:published_time" content="2023-07-13T07:15:24.000Z">
-<meta property="article:modified_time" content="2023-07-13T09:29:46.397Z">
+<meta property="article:modified_time" content="2023-07-13T09:40:57.686Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://pic1.zhimg.com/80/v2-7d88b680c6b3125f0d9ba64902bc5474_1440w.webp">
@@ -338,9 +341,15 @@
 <h3 id="2、激活函数有哪些作用？"><a href="#2、激活函数有哪些作用？" class="headerlink" title="2、激活函数有哪些作用？"></a>2、激活函数有哪些作用？</h3><p>​        激活函数（Activation Function）是一种添加到人工神经网络中的函数，旨在帮助网络学习数据中的复杂模式。在神经元中，输入的input经过一系列加权求和后作用于另一个函数，这个函数就是这里的激活函数。类似于人类大脑中基于神经元的模型，激活函数最终决定了是否传递信号以及要发射给下一个神经元的内容。在人工神经网络中，一个节点的激活函数定义了该节点在给定的输入或输入集合下的输出。标准的计算机芯片电路可以看作是根据输入得到开（1）或关（0）输出的数字电路激活函数。</p>
 <p>​        神经网络中每一层的输入输出都是一个线性求和的过程，下一层的输出只是承接了上一层输入函数的线性变换，所以如果没有激活函数，那么无论你构造的神经网络多么复杂，有多少层，最后的输出都是输入的线性组合，纯粹的线性组合并不能够解决更为复杂的问题。而引入激活函数之后，我们会发现常见的激活函数都是非线性的，因此也会给神经元引入非线性元素，使得神经网络可以逼近其他的任何非线性函数，这样可以使得神经网络应用到更多非线性模型中。</p>
 <h3 id="3、梯度消失现象是什么？"><a href="#3、梯度消失现象是什么？" class="headerlink" title="3、梯度消失现象是什么？"></a>3、梯度消失现象是什么？</h3><p>​        目前优化神经网络的方法都是基于反向传播的思想，即根据损失函数计算的误差通过梯度反向传播的方式，更新优化深度网络的权值。这样做是有一定原因的，首先，深层网络由许多非线性层堆叠而来，每一层非线性层都可以视为是一个非线性函数 f(x)，因此整个深度网络可以视为是一个复合的非线性多元函数：</p>
-<p><img src="https://pic1.zhimg.com/80/v2-7d88b680c6b3125f0d9ba64902bc5474_1440w.webp" alt="img"></p>
+<p><img src="https://pic1.zhimg.com/80/v2-7d88b680c6b3125f0d9ba64902bc5474_1440w.webp" alt="非线性多元函数"></p>
 <p>​        我们最终的目的是希望这个多元函数可以很好的完成输入到输出之间的映射。</p>
-<p>​        </p>
+<p>​        损失函数C对偏置b1的偏导数的结果计算如下：</p>
+<p><img src="https://images2015.cnblogs.com/blog/681873/201612/681873-20161209210156147-535395600.png" alt="偏导数"></p>
+<p>sigmoid 函数导数的图像：</p>
+<p><img src="https://images2015.cnblogs.com/blog/681873/201612/681873-20161209210355476-1472970235.png" alt="sigmoid"></p>
+<p>该导数在σ′(0) &#x3D; 1&#x2F;4时达到最高。现在，如果我们使用标准方法来初始化网络中的权重，那么会使用一个均值为0 标准差为1 的高斯分布。因此所有的权重通常会满足|wj|&lt;1。从而有wjσ′(zj) &lt; 1&#x2F;4。</p>
+<p><img src="https://images2015.cnblogs.com/blog/681873/201612/681873-20161209210818116-693338732.png" alt="层数增加梯度消失"></p>
+<p>这其实就是消失的梯度出现的本质原因了。</p>
 <h3 id="4、神经网络是更宽好还是更深好？"><a href="#4、神经网络是更宽好还是更深好？" class="headerlink" title="4、神经网络是更宽好还是更深好？"></a>4、神经网络是更宽好还是更深好？</h3><h3 id="5、为什么要使用Softmax"><a href="#5、为什么要使用Softmax" class="headerlink" title="5、为什么要使用Softmax?"></a>5、为什么要使用Softmax?</h3><p>​        Softmax 是用于多类分类问题的激活函数，在多类分类问题中，超过两个类标签则需要类成员关系。对于长度为 K 的任意实向量，Softmax 可以将其压缩为长度为 K，值在（0，1）范围内，并且向量中元素的总和为 1 的实向量。</p>
 <p>​        Softmax函数将原始的线性输出转换为概率分布。它通过对每个类别的输出进行指数化，并进行归一化处理，使得输出值在0到1之间，并且所有类别的概率之和为1。这样可以将模型的输出解释为每个类别的概率，方便理解和解释分类结果。</p>
 <p>​        Softmax适用于多类别分类任务，其中每个样本可以属于一个或多个类别。通过Softmax函数，模型可以为每个类别分配一个概率值，使得在多个类别之间进行决策更加直观和自然。</p>
