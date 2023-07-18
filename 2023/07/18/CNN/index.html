@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>CNN | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="卷积神经网络（CNN）一、使用CNN对MNIST数据集分类深度卷积神经网络中，有如下特性  很多层: compositionality：深度卷积神经网络通常由多个卷积层和全连接层组成。通过堆叠多个层，网络能够逐渐学习到更高级别的抽象特征表示。每一层的输出作为下一层的输入，层与层之间的组合性使得网络能够建立复杂的特征表达和模式识别能力。 卷积: locality + stationarity of">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CNN">
+<meta property="og:url" content="http://example.com/2023/07/18/CNN/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="卷积神经网络（CNN）一、使用CNN对MNIST数据集分类深度卷积神经网络中，有如下特性  很多层: compositionality：深度卷积神经网络通常由多个卷积层和全连接层组成。通过堆叠多个层，网络能够逐渐学习到更高级别的抽象特征表示。每一层的输出作为下一层的输入，层与层之间的组合性使得网络能够建立复杂的特征表达和模式识别能力。 卷积: locality + stationarity of">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-07-18T06:32:03.000Z">
+<meta property="article:modified_time" content="2023-07-18T08:04:11.558Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-CNN" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/07/18/CNN/" class="article-date">
+  <time class="dt-published" datetime="2023-07-18T06:32:03.000Z" itemprop="datePublished">2023-07-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      CNN
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="卷积神经网络（CNN）"><a href="#卷积神经网络（CNN）" class="headerlink" title="卷积神经网络（CNN）"></a>卷积神经网络（CNN）</h1><h2 id="一、使用CNN对MNIST数据集分类"><a href="#一、使用CNN对MNIST数据集分类" class="headerlink" title="一、使用CNN对MNIST数据集分类"></a>一、使用CNN对MNIST数据集分类</h2><p>深度卷积神经网络中，有如下特性</p>
+<ul>
+<li>很多层: compositionality：深度卷积神经网络通常由多个卷积层和全连接层组成。通过堆叠多个层，网络能够逐渐学习到更高级别的抽象特征表示。每一层的输出作为下一层的输入，层与层之间的组合性使得网络能够建立复杂的特征表达和模式识别能力。</li>
+<li>卷积: locality + stationarity of images：卷积层是深度卷积神经网络的核心。卷积操作通过滑动卷积核在输入数据上提取局部特征，利用局部连接性和权重共享的方式，捕捉输入数据的局部模式和特征。卷积层利用图像数据的局部性和图像在空间上的平移不变性，使网络能够有效地学习到图像的空间结构和位置信息。</li>
+<li>池化: Invariance of object class to translations：池化层是用于下采样和保持局部不变性的操作。通过对特征图的局部区域进行汇聚，池化层可以减小特征图的尺寸，同时保持重要特征的不变性。池化层使得网络对输入数据的轻微平移、缩放等变化具有一定的不变性，使得网络能够对目标类别具有一定的平移不变性。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"><span class="keyword">import</span> torch.nn.functional <span class="keyword">as</span> F</span><br><span class="line"><span class="keyword">import</span> torch.optim <span class="keyword">as</span> optim</span><br><span class="line"><span class="keyword">from</span> torchvision <span class="keyword">import</span> datasets, transforms</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> numpy</span><br><span class="line"></span><br><span class="line"><span class="comment"># 一个函数，用来计算模型中有多少参数</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_n_params</span>(<span class="params">model</span>):</span><br><span class="line">    np=<span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> p <span class="keyword">in</span> <span class="built_in">list</span>(model.parameters()):</span><br><span class="line">        np += p.nelement()</span><br><span class="line">    <span class="keyword">return</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用GPU训练，可以在菜单 &quot;代码执行工具&quot; -&gt; &quot;更改运行时类型&quot; 里进行设置</span></span><br><span class="line">device = torch.device(<span class="string">&quot;cuda:0&quot;</span> <span class="keyword">if</span> torch.cuda.is_available() <span class="keyword">else</span> <span class="string">&quot;cpu&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-加载数据"><a href="#1-加载数据" class="headerlink" title="1.加载数据"></a>1.加载数据</h3><p>PyTorch里包含了 MNIST， CIFAR10 等常用数据集，调用 torchvision.datasets 即可把这些数据由远程下载到本地，下面给出MNIST的使用方法：</p>
+<p>torchvision.datasets.MNIST(root, train&#x3D;True, transform&#x3D;None, target_transform&#x3D;None, download&#x3D;False)</p>
+<ul>
+<li>root 为数据集下载到本地后的根目录，包括 training.pt 和 test.pt 文件</li>
+<li>train，如果设置为True，从training.pt创建数据集，否则从test.pt创建。</li>
+<li>download，如果设置为True, 从互联网下载数据并放到root文件夹下</li>
+<li>transform, 一种函数或变换，输入PIL图片，返回变换之后的数据。</li>
+<li>target_transform 一种函数或变换，输入目标，进行变换。</li>
+</ul>
+<p>另外值得注意的是，DataLoader是一个比较重要的类，提供的常用操作有：batch_size(每个batch的大小), shuffle(是否进行随机打乱顺序的操作), num_workers(加载数据的时候使用几个子进程)</p>
+<p>In[0]：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">input_size  = <span class="number">28</span>*<span class="number">28</span>   <span class="comment"># MNIST上的图像尺寸是 28x28</span></span><br><span class="line">output_size = <span class="number">10</span>      <span class="comment"># 类别为 0 到 9 的数字，因此为十类</span></span><br><span class="line"></span><br><span class="line">train_loader = torch.utils.data.DataLoader(</span><br><span class="line">    datasets.MNIST(<span class="string">&#x27;./data&#x27;</span>, train=<span class="literal">True</span>, download=<span class="literal">True</span>,</span><br><span class="line">        transform=transforms.Compose(</span><br><span class="line">            [transforms.ToTensor(),</span><br><span class="line">             transforms.Normalize((<span class="number">0.1307</span>,), (<span class="number">0.3081</span>,))])),</span><br><span class="line">    batch_size=<span class="number">64</span>, shuffle=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">test_loader = torch.utils.data.DataLoader(</span><br><span class="line">    datasets.MNIST(<span class="string">&#x27;./data&#x27;</span>, train=<span class="literal">False</span>, transform=transforms.Compose([</span><br><span class="line">             transforms.ToTensor(),</span><br><span class="line">             transforms.Normalize((<span class="number">0.1307</span>,), (<span class="number">0.3081</span>,))])),</span><br><span class="line">    batch_size=<span class="number">1000</span>, shuffle=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+
+<p>Output[0]:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Downloading http://yann.lecun.com/exdb/mnist/train-images-idx3-ubyte.gz</span><br><span class="line">Downloading http://yann.lecun.com/exdb/mnist/train-images-idx3-ubyte.gz to ./data/MNIST/raw/train-images-idx3-ubyte.gz</span><br><span class="line"><span class="number">100</span>%|██████████| <span class="number">9912422</span>/<span class="number">9912422</span> [<span class="number">00</span>:<span class="number">00</span>&lt;<span class="number">00</span>:<span class="number">00</span>, <span class="number">157760433.05</span>it/s]Extracting ./data/MNIST/raw/train-images-idx3-ubyte.gz to ./data/MNIST/raw</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Downloading http://yann.lecun.com/exdb/mnist/train-labels-idx1-ubyte.gz</span><br><span class="line">Downloading http://yann.lecun.com/exdb/mnist/train-labels-idx1-ubyte.gz to ./data/MNIST/raw/train-labels-idx1-ubyte.gz</span><br><span class="line"><span class="number">100</span>%|██████████| <span class="number">28881</span>/<span class="number">28881</span> [<span class="number">00</span>:<span class="number">00</span>&lt;<span class="number">00</span>:<span class="number">00</span>, <span class="number">22202289.92</span>it/s]</span><br><span class="line">Extracting ./data/MNIST/raw/train-labels-idx1-ubyte.gz to ./data/MNIST/raw</span><br><span class="line"></span><br><span class="line">Downloading http://yann.lecun.com/exdb/mnist/t10k-images-idx3-ubyte.gz</span><br><span class="line">Downloading http://yann.lecun.com/exdb/mnist/t10k-images-idx3-ubyte.gz to ./data/MNIST/raw/t10k-images-idx3-ubyte.gz</span><br><span class="line"><span class="number">100</span>%|██████████| <span class="number">1648877</span>/<span class="number">1648877</span> [<span class="number">00</span>:<span class="number">00</span>&lt;<span class="number">00</span>:<span class="number">00</span>, <span class="number">85069453.94</span>it/s]Extracting ./data/MNIST/raw/t10k-images-idx3-ubyte.gz to ./data/MNIST/raw</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Downloading http://yann.lecun.com/exdb/mnist/t10k-labels-idx1-ubyte.gz</span><br><span class="line">Downloading http://yann.lecun.com/exdb/mnist/t10k-labels-idx1-ubyte.gz to ./data/MNIST/raw/t10k-labels-idx1-ubyte.gz</span><br><span class="line"><span class="number">100</span>%|██████████| <span class="number">4542</span>/<span class="number">4542</span> [<span class="number">00</span>:<span class="number">00</span>&lt;<span class="number">00</span>:<span class="number">00</span>, <span class="number">3282875.89</span>it/s]</span><br><span class="line">Extracting ./data/MNIST/raw/t10k-labels-idx1-ubyte.gz to ./data/MNIST/raw</span><br></pre></td></tr></table></figure>
+
+<p><strong>显示数据集中的部分图像</strong></p>
+<p>In[0]:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">plt.figure(figsize=(<span class="number">8</span>, <span class="number">5</span>))</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">20</span>):</span><br><span class="line">    plt.subplot(<span class="number">4</span>, <span class="number">5</span>, i + <span class="number">1</span>)</span><br><span class="line">    image, _ = train_loader.dataset.__getitem__(i)</span><br><span class="line">    plt.imshow(image.squeeze().numpy(),<span class="string">&#x27;gray&#x27;</span>)</span><br><span class="line">    plt.axis(<span class="string">&#x27;off&#x27;</span>);</span><br><span class="line">     </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>Output[]:</p>
+<p><img src="data:image/png;base64,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%0AXehERMRr/w+vLFuBlmg8HAAAAABJRU5ErkJggg==" alt="img"></p>
+<h3 id="2-创建网络"><a href="#2-创建网络" class="headerlink" title="2. 创建网络"></a>2. 创建网络</h3><p>定义网络时，需要继承nn.Module，并实现它的forward方法，把网络中具有可学习参数的层放在构造函数__init__中。</p>
+<p>只要在<strong>nn.Module</strong>的子类中定义了<strong>forward</strong>函数，**backward函数就会自动被实现(利用autograd)**。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">FC2Layer</span>(nn.Module):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, input_size, n_hidden, output_size</span>):</span><br><span class="line">        <span class="comment"># nn.Module子类的函数必须在构造函数中执行父类的构造函数</span></span><br><span class="line">        <span class="comment"># 下式等价于nn.Module.__init__(self)        </span></span><br><span class="line">        <span class="built_in">super</span>(FC2Layer, self).__init__()</span><br><span class="line">        self.input_size = input_size</span><br><span class="line">        <span class="comment"># 这里直接用 Sequential 就定义了网络，注意要和下面 CNN 的代码区分开</span></span><br><span class="line">        self.network = nn.Sequential(</span><br><span class="line">            nn.Linear(input_size, n_hidden), </span><br><span class="line">            nn.ReLU(), </span><br><span class="line">            nn.Linear(n_hidden, n_hidden), </span><br><span class="line">            nn.ReLU(), </span><br><span class="line">            nn.Linear(n_hidden, output_size), </span><br><span class="line">            nn.LogSoftmax(dim=<span class="number">1</span>)</span><br><span class="line">        )</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, x</span>):</span><br><span class="line">        <span class="comment"># view一般出现在model类的forward函数中，用于改变输入或输出的形状</span></span><br><span class="line">        <span class="comment"># x.view(-1, self.input_size) 的意思是多维的数据展成二维</span></span><br><span class="line">        <span class="comment"># 代码指定二维数据的列数为 input_size=784，行数 -1 表示我们不想算，电脑会自己计算对应的数字</span></span><br><span class="line">        <span class="comment"># 在 DataLoader 部分，我们可以看到 batch_size 是64，所以得到 x 的行数是64</span></span><br><span class="line">        <span class="comment"># 大家可以加一行代码：print(x.cpu().numpy().shape)</span></span><br><span class="line">        <span class="comment"># 训练过程中，就会看到 (64, 784) 的输出，和我们的预期是一致的</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># forward 函数的作用是，指定网络的运行过程，这个全连接网络可能看不到意义，</span></span><br><span class="line">        <span class="comment"># 下面的CNN网络可以看出 forward 的作用。</span></span><br><span class="line">        x = x.view(-<span class="number">1</span>, self.input_size)</span><br><span class="line">        <span class="keyword">return</span> self.network(x)</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">CNN</span>(nn.Module):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, input_size, n_feature, output_size</span>):</span><br><span class="line">        <span class="comment"># 执行父类的构造函数，所有的网络都要这么写</span></span><br><span class="line">        <span class="built_in">super</span>(CNN, self).__init__()</span><br><span class="line">        <span class="comment"># 下面是网络里典型结构的一些定义，一般就是卷积和全连接</span></span><br><span class="line">        <span class="comment"># 池化、ReLU一类的不用在这里定义</span></span><br><span class="line">        self.n_feature = n_feature</span><br><span class="line">        self.conv1 = nn.Conv2d(in_channels=<span class="number">1</span>, out_channels=n_feature, kernel_size=<span class="number">5</span>)</span><br><span class="line">        self.conv2 = nn.Conv2d(n_feature, n_feature, kernel_size=<span class="number">5</span>)</span><br><span class="line">        self.fc1 = nn.Linear(n_feature*<span class="number">4</span>*<span class="number">4</span>, <span class="number">50</span>)</span><br><span class="line">        self.fc2 = nn.Linear(<span class="number">50</span>, <span class="number">10</span>)    </span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 下面的 forward 函数，定义了网络的结构，按照一定顺序，把上面构建的一些结构组织起来</span></span><br><span class="line">    <span class="comment"># 意思就是，conv1, conv2 等等的，可以多次重用</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, x, verbose=<span class="literal">False</span></span>):</span><br><span class="line">        x = self.conv1(x)</span><br><span class="line">        x = F.relu(x)</span><br><span class="line">        x = F.max_pool2d(x, kernel_size=<span class="number">2</span>)</span><br><span class="line">        x = self.conv2(x)</span><br><span class="line">        x = F.relu(x)</span><br><span class="line">        x = F.max_pool2d(x, kernel_size=<span class="number">2</span>)</span><br><span class="line">        x = x.view(-<span class="number">1</span>, self.n_feature*<span class="number">4</span>*<span class="number">4</span>)</span><br><span class="line">        x = self.fc1(x)</span><br><span class="line">        x = F.relu(x)</span><br><span class="line">        x = self.fc2(x)</span><br><span class="line">        x = F.log_softmax(x, dim=<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">return</span> x</span><br></pre></td></tr></table></figure>
+
+<p>该卷积神经网络包含两个卷积层和两个全连接层，每个卷积层中，网络使用5x5大小的卷积核对输入进行卷积操作，以提取图像中的特征。卷积核的参数由网络自动学习，用于对输入数据进行特征提取和表示。在前向传播函数 <code>forward</code> 中，网络的结构如下：</p>
+<ol>
+<li>输入通过第一个卷积层 <code>self.conv1</code> 进行卷积操作，然后经过ReLU激活函数。</li>
+<li>经过最大池化操作 <code>F.max_pool2d</code>（池化核大小为2x2）进行下采样。</li>
+<li>输入再经过第二个卷积层 <code>self.conv2</code> 进行卷积操作，然后再经过ReLU激活函数。</li>
+<li>再次经过最大池化操作 <code>F.max_pool2d</code> 进行下采样。</li>
+<li>将特征图展平为一维向量，使用 <code>x.view</code> 将其变换为形状为<code>(-1, n_feature*4*4)</code>的张量。</li>
+<li>输入通过第一个全连接层 <code>self.fc1</code> 进行线性变换，并经过ReLU激活函数。</li>
+<li>输入通过第二个全连接层 <code>self.fc2</code> 进行线性变换。</li>
+<li>最后，通过LogSoftmax函数 <code>F.log_softmax</code> 进行分类结果的计算。</li>
+</ol>
+<p>定义训练和测试函数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 训练函数</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">train</span>(<span class="params">model</span>):</span><br><span class="line">    model.train()</span><br><span class="line">    <span class="comment"># 主里从train_loader里，64个样本一个batch为单位提取样本进行训练</span></span><br><span class="line">    <span class="keyword">for</span> batch_idx, (data, target) <span class="keyword">in</span> <span class="built_in">enumerate</span>(train_loader):</span><br><span class="line">        <span class="comment"># 把数据送到GPU中</span></span><br><span class="line">        data, target = data.to(device), target.to(device)</span><br><span class="line"></span><br><span class="line">        optimizer.zero_grad()</span><br><span class="line">        output = model(data)</span><br><span class="line">        loss = F.nll_loss(output, target)</span><br><span class="line">        loss.backward()</span><br><span class="line">        optimizer.step()</span><br><span class="line">        <span class="keyword">if</span> batch_idx % <span class="number">100</span> == <span class="number">0</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&#x27;Train: [&#123;&#125;/&#123;&#125; (&#123;:.0f&#125;%)]\tLoss: &#123;:.6f&#125;&#x27;</span>.<span class="built_in">format</span>(</span><br><span class="line">                batch_idx * <span class="built_in">len</span>(data), <span class="built_in">len</span>(train_loader.dataset),</span><br><span class="line">                <span class="number">100.</span> * batch_idx / <span class="built_in">len</span>(train_loader), loss.item()))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test</span>(<span class="params">model</span>):</span><br><span class="line">    model.<span class="built_in">eval</span>()</span><br><span class="line">    test_loss = <span class="number">0</span></span><br><span class="line">    correct = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> data, target <span class="keyword">in</span> test_loader:</span><br><span class="line">        <span class="comment"># 把数据送到GPU中</span></span><br><span class="line">        data, target = data.to(device), target.to(device)</span><br><span class="line">        <span class="comment"># 把数据送入模型，得到预测结果</span></span><br><span class="line">        output = model(data)</span><br><span class="line">        <span class="comment"># 计算本次batch的损失，并加到 test_loss 中</span></span><br><span class="line">        test_loss += F.nll_loss(output, target, reduction=<span class="string">&#x27;sum&#x27;</span>).item()</span><br><span class="line">        <span class="comment"># get the index of the max log-probability，最后一层输出10个数，</span></span><br><span class="line">        <span class="comment"># 值最大的那个即对应着分类结果，然后把分类结果保存在 pred 里</span></span><br><span class="line">        pred = output.data.<span class="built_in">max</span>(<span class="number">1</span>, keepdim=<span class="literal">True</span>)[<span class="number">1</span>]</span><br><span class="line">        <span class="comment"># 将 pred 与 target 相比，得到正确预测结果的数量，并加到 correct 中</span></span><br><span class="line">        <span class="comment"># 这里需要注意一下 view_as ，意思是把 target 变成维度和 pred 一样的意思                                                </span></span><br><span class="line">        correct += pred.eq(target.data.view_as(pred)).cpu().<span class="built_in">sum</span>().item()</span><br><span class="line"></span><br><span class="line">    test_loss /= <span class="built_in">len</span>(test_loader.dataset)</span><br><span class="line">    accuracy = <span class="number">100.</span> * correct / <span class="built_in">len</span>(test_loader.dataset)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;\nTest set: Average loss: &#123;:.4f&#125;, Accuracy: &#123;&#125;/&#123;&#125; (&#123;:.0f&#125;%)\n&#x27;</span>.<span class="built_in">format</span>(</span><br><span class="line">        test_loss, correct, <span class="built_in">len</span>(test_loader.dataset),</span><br><span class="line">        accuracy))</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="二、使用CNN对CIFAR10数据集分类"><a href="#二、使用CNN对CIFAR10数据集分类" class="headerlink" title="二、使用CNN对CIFAR10数据集分类"></a>二、使用CNN对CIFAR10数据集分类</h2><h2 id="三、使用-VGG16-对-CIFAR10-分类"><a href="#三、使用-VGG16-对-CIFAR10-分类" class="headerlink" title="三、使用 VGG16 对 CIFAR10 分类"></a>三、使用 VGG16 对 CIFAR10 分类</h2>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/07/18/CNN/" data-id="clk80e8g900004suod9etbes3" data-title="CNN" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2023/07/13/DL/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">DL</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/07/">July 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/07/18/CNN/">CNN</a>
+          </li>
+        
+          <li>
+            <a href="/2023/07/13/DL/">DL</a>
+          </li>
+        
+          <li>
+            <a href="/2023/07/13/hello-world/">Hello World</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
